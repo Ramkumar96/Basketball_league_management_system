@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -26,7 +26,6 @@ SECRET_KEY = 'django-insecure-(=wy8loounha4t^40um%4&7q_=^w8_8i+$b@hjzppw5d=)w+9c
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -74,9 +73,20 @@ WSGI_APPLICATION = 'Basketball_league_management_system.wsgi.application'
 
 
 # Database Config
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
+        'OPTIONS': {
+                'sql_mode': 'traditional',
+            },
         'NAME': 'basketball_management_system',
         'USER': 'root',
         'PASSWORD': '',
