@@ -52,3 +52,7 @@ def getAllTeams(request):
     teams = list(Team.objects.all().values())
     return JsonResponse(teams, safe=False)
 
+# The league admin view all players and details
+def getAllPlayers(request):
+    players = list(Player_Details.objects.all().values())
+    return JsonResponse(players, safe=False)

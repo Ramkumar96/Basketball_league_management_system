@@ -2,17 +2,16 @@
 {{ request }}
 {% block content %}
     <div class="content-section">
-        <h1>Scorecard</h1>
         {% for game in games %}
-            <div class="card text-center">
+            <div class="card text-center mb-5">
               <div class="card-header">
                 Srilanka Basketball League
               </div>
               <div class="card-body">
                 <h5 class="card-title">Teams : {{ game.home_team }} VS {{ game.visitor_team }}</h5>
                 <h5 class="card-title">Scores : {{ game.home_score }} VS {{ game.visitor_score }}</h5>
-                <p class="card-text">{{ game.game_date }}</p>
-                <p class="card-text">{{ game.game_venue }}</p>
+                <p class="card-text">Date : {{ game.game_date }}</p>
+                <p class="card-text">Venue : {{ game.game_venue }}</p>
               </div>
               <div class="card-footer text-muted">
                 {{ game.winner }} Won the Match

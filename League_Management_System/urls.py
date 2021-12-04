@@ -9,4 +9,5 @@ urlpatterns = [
     path('team/<int:team_id>/', views.getTeamPlayersByTeamId, name='getTeamPlayersByTeamId'),
     path('player/<int:player_id>/', views.getDetailsOfPlayerByPlayerId, name='getDetailsOfPlayerByPlayerId'),
     path('allteams/', views.getAllTeams, name='getAllTeams'),
+    path('allplayers/', views.getAllPlayers, name='getAllPlayers'),
 ]

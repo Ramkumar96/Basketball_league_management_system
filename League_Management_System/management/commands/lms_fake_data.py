@@ -1,16 +1,13 @@
 from django.contrib.auth.models import User
-from django.core.exceptions import ObjectDoesNotExist
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from django.shortcuts import get_object_or_404
 from faker import Faker
 import random
-from django.db.models import Q
 
 from League_Management_System.models import Team, Game, Role, User_Role, User_Details, Player_Details
 
 
 class Command(BaseCommand):
-    help = 'Populate data for BMS'
 
     # Function to populate user data
     def user(self, fake):
@@ -25,12 +22,14 @@ class Command(BaseCommand):
             user.save()
             self.stdout.write(self.style.SUCCESS('User Created : "%s"' % user.username))
 
+    # Function to populate team data
     def team(self, fake):
         for a in range(16):
             team = Team(name=fake.slug())
             team.save()
             self.stdout.write(self.style.SUCCESS('Team Created : "%s"' % team.name))
 
+    # Function to populate game data
     def game(self, fake):
         teams = Team.objects.all()
         home_team = teams[1::2]
@@ -50,13 +49,15 @@ class Command(BaseCommand):
                 game.save()
                 self.stdout.write(self.style.SUCCESS('Game %s Vs %s Created  ' % (home_team[i], visitor_team[j])))
 
+    # Function to populate role data
     def role(self, fake):
         types = ['C', 'P', 'A']
         for type in range(len(types)):
-            role = Role(user_type =types[type])
+            role = Role(user_type=types[type])
             role.save()
             self.stdout.write(self.style.SUCCESS('Role type Added'))
 
+    # Function to populate user_role data
     def user_role(self, fake):
 
         users = User.objects.filter(is_superuser=False)
@@ -79,19 +80,21 @@ class Command(BaseCommand):
             admin_user.save()
             self.stdout.write(self.style.SUCCESS('Admin user Role Added'))
 
+    # Function to populate user details data
     def user_Details(self, fake):
         users = User.objects.all()
 
         for user in users:
             details = User_Details(user_id=user.id, is_logged_in=fake.pybool(),
-                                       login_time=fake.date_time_this_month(before_now=True, after_now=False,
-                                                                            tzinfo=None),
-                                       logout_time=fake.date_time_this_month(before_now=False, after_now=True,
-                                                                             tzinfo=None)
-                                       )
+                                   login_time=fake.date_time_this_month(before_now=True, after_now=False,
+                                                                        tzinfo=None),
+                                   logout_time=fake.date_time_this_month(before_now=False, after_now=True,
+                                                                         tzinfo=None)
+                                   )
             details.save()
             self.stdout.write(self.style.SUCCESS('Stat saved for  %s ' % user.id))
 
+    # Function to populate players details data
     def player_details(self, fake):
         teams = Team.objects.all()
         player = Role.objects.filter(user_type='P').first()
@@ -102,14 +105,13 @@ class Command(BaseCommand):
             counter = 0
             while counter < 10:
                 players_score = random.randint(0, 30)
-                player_details = Player_Details(players_team_id =team.id, user_id=users[user_no].user.id,
-                                players_height =fake.random_int(min=150, max=200, step=1),
-                                players_score = players_score)
+                player_details = Player_Details(players_team_id=team.id, user_id=users[user_no].user.id,
+                                                players_height=fake.random_int(min=150, max=200, step=1),
+                                                players_score=players_score)
                 player_details.save()
                 self.stdout.write(self.style.SUCCESS('Player Created'))
                 user_no += 1
                 counter += 1
-
 
     def handle(self, *args, **options):
         fake = Faker()
@@ -120,4 +122,3 @@ class Command(BaseCommand):
         self.user_role(fake)
         self.user_Details(fake)
         self.player_details(fake)
-
