@@ -17,8 +17,11 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 
+from League_Management_System import views
+
 urlpatterns = [
     path('lms/', include('League_Management_System.urls')),
     path('admin/', admin.site.urls),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('logout/', views.UserLogoutView.as_view(), name='logout')
 ]
