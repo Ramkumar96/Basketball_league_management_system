@@ -1,8 +1,9 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.shortcuts import render
 
-from League_Management_System.models import Game, Player_Details
+from League_Management_System.models import Game, Player_Details, Team
 
 from django.contrib import messages
 from django.contrib.auth.views import LogoutView
@@ -13,6 +14,7 @@ class UserLogoutView(LogoutView):
         if request.user.is_authenticated:
             messages.info(request, "You have successfully logged out.")
         return super().dispatch(request, *args, **kwargs)
+
 
 def homepage(request):
     return render(request, 'home.html')
@@ -26,8 +28,27 @@ def scoreboard(request):
     return render(request, 'scorecard.html', context)
 
 
-def getTeamById(request, team_id=None):
-    players_details = Player_Details.objects.filter(players_team_id=team_id).values('players_height', 'players_score',
-                                                                                    'user_id')
-    players_details = list(players_details)
-    return JsonResponse(players_details, safe=False)
+# Coach getting players List of his own Team
+def getTeamPlayersByTeamId(request, team_id=None):
+    players_ids = Player_Details.objects.filter(players_team_id=team_id).values_list('user_id', flat=True)
+    all_user_list = []
+    for player_id in players_ids:
+        user = User.objects.filter(id=player_id).values('username')
+        team_players_username_list = list(user)
+        all_user_list += team_players_username_list
+    return JsonResponse(all_user_list, safe=False)
+
+
+# Coach getting Details of a player of his own Team
+def getDetailsOfPlayerByPlayerId(request, player_id=None):
+    player_details = list(Player_Details.objects.filter(id=player_id).values('players_team_id',
+                                                                             'players_score', 'players_height',
+                                                                             'user_id'))
+    return JsonResponse(player_details, safe=False)
+
+
+# The league admin view all teams
+def getAllTeams(request):
+    teams = list(Team.objects.all().values())
+    return JsonResponse(teams, safe=False)
+
