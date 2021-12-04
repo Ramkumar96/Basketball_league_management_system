@@ -87,7 +87,7 @@ DATABASES = {
         'OPTIONS': {
                 'sql_mode': 'traditional',
             },
-        'NAME': 'basketball_management_system',
+        'NAME': 'basketball_management_system_2',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',
