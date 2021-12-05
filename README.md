@@ -23,20 +23,14 @@ Three user types and their functionalities
 ##  The admin 
 - View the statistics of the site’s usage number of times each user logged into the system, the total amount of time each user spent on the site, and who is currently online. (i.e. logged into the site)
 
-
-#Configurations
-
-## Commands
-
-- To populate fake data
-python manage.py lms_fake_data
-
-- To make migration and run server
-python manage.py makemigrations
-python manage.py migrate
-python manage.py runserver
-
 ## Technologies : HTML | CSS | Bootstrap | Django | MySQL
+
+# Configurations
+
+Python 3.9.7
+
+## Commands To run 
+
 
 ## Database Config
 
@@ -53,6 +47,16 @@ DATABASES = {
         'PORT': '3306',
     }
 }
+
+Import provided sql file in your database
+
+To populate fake data(If needed)
+- python manage.py lms_fake_data
+
+To make migration and run server
+- python manage.py makemigrations
+- python manage.py migrate
+- python manage.py runserver
 
 ## Urls
 
