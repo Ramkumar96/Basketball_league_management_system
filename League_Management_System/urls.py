@@ -5,9 +5,10 @@ from . import views
 urlpatterns = [
     path('', views.homepage, name='home'),
     path('scoreboard/', views.scoreboard, name='scoreboard'),
-    # Get Team Details by team ID
     path('team/<int:team_id>/', views.getTeamPlayersByTeamId, name='getTeamPlayersByTeamId'),
     path('player/<int:player_id>/', views.getDetailsOfPlayerByPlayerId, name='getDetailsOfPlayerByPlayerId'),
     path('allteams/', views.getAllTeams, name='getAllTeams'),
     path('allplayers/', views.getAllPlayers, name='getAllPlayers'),
+    path('userstats/', views.getUserStatics, name='getUserStatics'),
+
 ]

@@ -1,9 +1,10 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.db.models import Count
 from django.http import JsonResponse
 from django.shortcuts import render
 
-from League_Management_System.models import Game, Player_Details, Team
+from League_Management_System.models import Game, Player_Details, Team, User_Details
 
 from django.contrib import messages
 from django.contrib.auth.views import LogoutView
@@ -52,7 +53,15 @@ def getAllTeams(request):
     teams = list(Team.objects.all().values())
     return JsonResponse(teams, safe=False)
 
+
 # The league admin view all players and details
 def getAllPlayers(request):
     players = list(Player_Details.objects.all().values())
     return JsonResponse(players, safe=False)
+
+
+# The admin can view the statistics of the site’s usage
+
+def getUserStatics(request):
+    user_details = list(User_Details.objects.all().values())
+    return JsonResponse(user_details, safe=False)
