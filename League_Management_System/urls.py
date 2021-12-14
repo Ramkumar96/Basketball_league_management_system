@@ -10,5 +10,6 @@ urlpatterns = [
     path('allteams/', views.getAllTeams, name='getAllTeams'),
     path('allplayers/', views.getAllPlayers, name='getAllPlayers'),
     path('userstats/', views.getUserStatics, name='getUserStatics'),
-
+    path('filterPlayers/<int:team_id>/', views.filterPlayers, name='filterPlayers'),
 ]
+

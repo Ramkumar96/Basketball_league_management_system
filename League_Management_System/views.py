@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.db.models import Count
+from django.db.models import Count, Avg
 from django.http import JsonResponse
 from django.shortcuts import render
 
@@ -65,3 +65,16 @@ def getAllPlayers(request):
 def getUserStatics(request):
     user_details = list(User_Details.objects.all().values())
     return JsonResponse(user_details, safe=False)
+
+
+# A coach can filter players to see only the ones whose average score is in the 90 percentile across the team.
+
+def filterPlayers(request, team_id=None):
+    team_players = Player_Details.objects.filter(players_team_id=team_id).values()
+    players_count = team_players.count()
+    if players_count:
+        percentile = float(0.9 * players_count)
+    else:
+        return 0.0
+    filtered_players = list(Player_Details.objects.filter(players_team_id=team_id).order_by('players_score').values()[percentile:])
+    return JsonResponse(filtered_players, safe=False)
